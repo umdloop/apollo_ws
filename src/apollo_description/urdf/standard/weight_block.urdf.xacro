@@ -19,7 +19,7 @@
   <link name="${link_name}">
     <visual>
       <geometry>
-       <mesh filename="package://apollo_description/meshes/weight_block.dae" scale="1 1 1" />
+       <mesh filename="package://apollo_description/meshes/turtlebot/weight_block.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <inertial>

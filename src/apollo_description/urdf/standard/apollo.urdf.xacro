@@ -51,12 +51,12 @@
     <visual>
       <origin xyz="0 0 0" rpy="${pi/2} 0 ${pi/2}"/>
       <geometry>
-        <mesh filename="package://apollo_description/meshes/shell.dae" scale="1 1 1" />
+        <mesh filename="package://apollo_description/meshes/turtlebot/shell.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision name="shell_collision">
       <geometry>
-        <mesh filename="package://apollo_description/meshes/shell_collision.dae" scale="1 1 1" />
+        <mesh filename="package://apollo_description/meshes/turtlebot/shell_collision.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>

@@ -22,7 +22,7 @@
   <link name="${name}_link">
     <visual>
       <geometry>
-        <mesh filename="package://apollo_description/meshes/rplidar.dae" scale="1 1 1" />
+        <mesh filename="package://apollo_description/meshes/turtlebot/rplidar.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
