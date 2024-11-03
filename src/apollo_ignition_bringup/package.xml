@@ -3,8 +3,8 @@
 <package format="3">
   <name>apollo_ignition_bringup</name>
   <version>1.0.2</version>
-  <description>TurtleBot 4 Ignition Simulator bringup</description>
-  <maintainer email="rkreinin@clearpathrobotics.com">rkreinin</maintainer>
+  <description>Apollo Ignition bringup</description>
+  <maintainer email="umdloop@gmail.com">UMDLoop</maintainer>
   <license>Apache 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>

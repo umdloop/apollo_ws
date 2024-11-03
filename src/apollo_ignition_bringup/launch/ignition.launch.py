@@ -1,19 +1,3 @@
-# Copyright 2023 Clearpath Robotics, Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-# @author Roni Kreinin (rkreinin@clearpathrobotics.com)
-
 import os
 
 from pathlib import Path
@@ -40,15 +24,11 @@ def generate_launch_description():
     # Directories
     pkg_ros_ign_gazebo = get_package_share_directory('ros_ign_gazebo')
     pkg_apollo_description = get_package_share_directory('apollo_description')
-    pkg_irobot_create_description = get_package_share_directory('irobot_create_description')
     
     # Set ignition resource path
     ign_resource_path = SetEnvironmentVariable(
     name='IGN_GAZEBO_RESOURCE_PATH',
-    value=[
-    
-        str(Path(pkg_apollo_description).parent.resolve()), ':' +
-        str(Path(pkg_irobot_create_description).parent.resolve())])
+    value=[str(Path(pkg_apollo_description).parent.resolve())])
 
     # Paths
     ign_gazebo_launch = PathJoinSubstitution(
