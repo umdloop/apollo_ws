@@ -1,11 +1,7 @@
 from ament_index_python.packages import get_package_share_directory
 
-from irobot_create_common_bringup.namespace import GetNamespacedName
-from irobot_create_common_bringup.offset import OffsetParser, RotationalOffsetX, RotationalOffsetY
-
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, GroupAction, IncludeLaunchDescription
-from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 
@@ -46,11 +42,11 @@ def generate_launch_description():
     x, y, z = LaunchConfiguration('x'), LaunchConfiguration('y'), LaunchConfiguration('z')
     yaw = LaunchConfiguration('yaw')
 
-    robot_name = GetNamespacedName(namespace, 'apollo')
+    robot_name = namespace + 'apollo'
 
 
     # Spawn robot slightly clsoer to the floor to reduce the drop
-    z_robot = OffsetParser(z, 3.0)
+    z_robot = z + 3.0
 
     spawn_robot_group_action = GroupAction([
         PushRosNamespace(namespace),
