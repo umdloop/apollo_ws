@@ -12,5 +12,5 @@ For testing, please build using ``colcon build``, source the workspace using ``s
 
 
 ```bash
-ros2 launch apollo_ignition_bringup apollo_ignition.launch.py
+ros2 launch apollo_ignition_bringup apollo_gz.launch.py
 ```
