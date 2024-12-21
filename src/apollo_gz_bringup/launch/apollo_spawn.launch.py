@@ -17,16 +17,12 @@ ARGUMENTS = [
                           description='use_sim_time'),
     DeclareLaunchArgument('namespace', default_value='',
                           description='Robot namespace'),
-
 ]
 
-for pose_element in ['x', 'y', 'z', 'yaw']:
-    ARGUMENTS.append(DeclareLaunchArgument(pose_element, default_value='0.0',
-                     description=f'{pose_element} component of the robot pose.'))
+
 
 
 def generate_launch_description():
-
     # Directories
     pkg_apollo_description = get_package_share_directory(
         'apollo_description')
@@ -34,20 +30,12 @@ def generate_launch_description():
     # Paths
     robot_description_launch = PathJoinSubstitution(
         [pkg_apollo_description, 'launch', 'robot_description.launch.py'])
-
-
-
     # Launch configurations
     namespace = LaunchConfiguration('namespace')
-    x, y, z = LaunchConfiguration('x'), LaunchConfiguration('y'), LaunchConfiguration('z')
-    yaw = LaunchConfiguration('yaw')
 
-    robot_name = namespace + 'apollo'
+    robot_name = 'apollo'
 
-
-    # Spawn robot slightly clsoer to the floor to reduce the drop
-    z_robot = z + 3.0
-
+    # Spawn robot slightly closer to the floor to reduce the drop
     spawn_robot_group_action = GroupAction([
         PushRosNamespace(namespace),
         # Robot description
@@ -56,20 +44,19 @@ def generate_launch_description():
             launch_arguments=[('use_sim_time', LaunchConfiguration('use_sim_time'))]
         ),
 
-        # Spawn TurtleBot 4
+        # Spawn Robot
         Node(
-            package='ros_ign_gazebo',
+            package='ros_gz_sim',
             executable='create',
             arguments=['-name', robot_name,
-                       '-x', x,
-                       '-y', y,
-                       '-z', z_robot,
-                       '-Y', yaw,
+                       '-x', '0.0',
+                       '-y', '0.0',
+                       '-z', '3.0',
+                       '-Y', '0.0',
                        '-topic', 'robot_description'],
             output='screen'
         ),
     ])
-
 
     # Define LaunchDescription variable
     ld = LaunchDescription(ARGUMENTS)

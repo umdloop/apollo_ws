@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>apollo_ignition_bringup</name>
+  <name>apollo_gz_bringup</name>
   <version>1.0.2</version>
-  <description>Apollo Ignition bringup</description>
+  <description>Apollo Gz bringup</description>
   <maintainer email="umdloop@gmail.com">UMDLoop</maintainer>
   <license>Apache 2.0</license>
 
@@ -12,10 +12,10 @@
   <!-- Apollo -->
   <depend>apollo_description</depend>
 
-  <!-- ROS IGN -->
-  <depend>ros_ign_interfaces</depend>
-  <depend>ros_ign_gazebo</depend>
-  <depend>ros_ign_bridge</depend>
+  <!-- ROS Gazebo -->
+  <depend>ros_gz_interfaces</depend>
+  <depend>ros_gz_sim</depend>
+  <depend>ros_gz_bridge</depend>
 
   <!-- Messages -->
   <depend>std_msgs</depend>

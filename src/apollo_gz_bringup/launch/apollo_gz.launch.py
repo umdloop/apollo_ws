@@ -13,39 +13,33 @@ ARGUMENTS = [
     DeclareLaunchArgument('rviz', default_value='false',
                           choices=['true', 'false'], description='Start rviz.'),
 ]
-for pose_element in ['x', 'y', 'z', 'yaw']:
-    ARGUMENTS.append(DeclareLaunchArgument(pose_element, default_value='0.0',
-                     description=f'{pose_element} component of the robot pose.'))
+
 
 
 def generate_launch_description():
     # Directories
-    pkg_apollo_ignition_bringup = get_package_share_directory(
-        'apollo_ignition_bringup')
+    pkg_apollo_gz_bringup = get_package_share_directory(
+        'apollo_gz_bringup')
 
     # Paths
-    ignition_launch = PathJoinSubstitution(
-        [pkg_apollo_ignition_bringup, 'launch', 'ignition.launch.py'])
+    gazebo_launch = PathJoinSubstitution(
+        [pkg_apollo_gz_bringup, 'launch', 'gz.launch.py'])
     robot_spawn_launch = PathJoinSubstitution(
-        [pkg_apollo_ignition_bringup, 'launch', 'apollo_spawn.launch.py'])
+        [pkg_apollo_gz_bringup, 'launch', 'apollo_spawn.launch.py'])
 
-    ignition = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([ignition_launch])
+    gazebo = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([gazebo_launch])
     )
 
     robot_spawn = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([robot_spawn_launch]),
         launch_arguments=[
             ('namespace', LaunchConfiguration('namespace')),
-            ('rviz', LaunchConfiguration('rviz')),
-            ('x', LaunchConfiguration('x')),
-            ('y', LaunchConfiguration('y')),
-            ('z', LaunchConfiguration('z')),
-            ('yaw', LaunchConfiguration('yaw'))]
+            ('rviz', LaunchConfiguration('rviz'))]
     )
 
     # Create launch description and add actions
     ld = LaunchDescription(ARGUMENTS)
-    ld.add_action(ignition)
+    ld.add_action(gazebo)
     ld.add_action(robot_spawn)
     return ld
