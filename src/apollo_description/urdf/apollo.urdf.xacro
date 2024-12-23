@@ -3,6 +3,6 @@
   <xacro:include filename="apollo.drive.urdf.xacro" />
   <xacro:include filename="apollo.imu.xacro"/>
   <xacro:imu_sensor prefix="apollo" parent="chassis">
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <origin xyz="0 0 0.1" rpy="0 0 0"/>
   </xacro:imu_sensor>
 </robot>

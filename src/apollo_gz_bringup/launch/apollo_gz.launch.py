@@ -16,15 +16,7 @@ ARGUMENTS = [
 def generate_launch_description():
     # Directories
     pkg_apollo_gz_bringup = get_package_share_directory('apollo_gz_bringup')
-    
-    # Set Gazebo plugin path for IMU
-    gz_sim_resource_path = SetEnvironmentVariable(
-        name='GZ_SIM_RESOURCE_PATH',
-        value=[
-            os.path.join(pkg_apollo_gz_bringup, 'worlds'), ':',
-            os.environ.get('GZ_SIM_RESOURCE_PATH', '')
-        ]
-    )
+
 
     # Paths
     gazebo_launch = PathJoinSubstitution(
@@ -54,7 +46,6 @@ def generate_launch_description():
 
     # Create launch description and add actions
     ld = LaunchDescription(ARGUMENTS)
-    ld.add_action(gz_sim_resource_path)
     ld.add_action(gazebo)
     ld.add_action(robot_spawn)
     ld.add_action(imu_bridge)
