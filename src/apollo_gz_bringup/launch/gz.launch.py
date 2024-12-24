@@ -18,6 +18,7 @@ def generate_launch_description():
     # Directories
     pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
     pkg_apollo_description = get_package_share_directory('apollo_description')
+    pkg_apollo_gz_bringup = get_package_share_directory('apollo_gz_bringup')
     
     # Set Gazebo resource path
     gz_resource_path = SetEnvironmentVariable(
@@ -31,24 +32,15 @@ def generate_launch_description():
     gazebo_sim = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([gz_sim_launch]),
         launch_arguments=[
-            ('gz_args', ["empty.sdf",
+            ('gz_args', [f"{pkg_apollo_gz_bringup}/worlds/apollo_world.sdf",
                         ' -r',
-                        ' -v 4']
+                        ' -v 2']
             )
         ]
     )
-
-    # Clock bridge
-    clock_bridge = Node(package='ros_gz_bridge', executable='parameter_bridge',
-                       name='clock_bridge',
-                       output='screen',
-                       arguments=[
-                           '/clock' + '@rosgraph_msgs/msg/Clock' + '[gz.msgs.Clock'
-                       ])
 
     # Create launch description and add actions
     ld = LaunchDescription(ARGUMENTS)
     ld.add_action(gz_resource_path)
     ld.add_action(gazebo_sim)
-    ld.add_action(clock_bridge)
     return ld

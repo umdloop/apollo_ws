@@ -2,7 +2,11 @@
 <robot name="apollo" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:include filename="apollo.drive.urdf.xacro" />
   <xacro:include filename="apollo.imu.xacro"/>
+  <xacro:include filename="apollo.gps.xacro"/>
   <xacro:imu_sensor prefix="apollo" parent="chassis">
     <origin xyz="0 0 0.1" rpy="0 0 0"/>
   </xacro:imu_sensor>
+  <xacro:gps_sensor prefix="apollo" parent="chassis">
+    <origin xyz="0 0.1 0.1" rpy="0 0 0"/>
+  </xacro:gps_sensor>
 </robot>

@@ -23,8 +23,8 @@ def generate_launch_description():
         [pkg_apollo_gz_bringup, 'launch', 'gz.launch.py'])
     robot_spawn_launch = PathJoinSubstitution(
         [pkg_apollo_gz_bringup, 'launch', 'apollo_spawn.launch.py'])
-    imu_bridge_launch = PathJoinSubstitution(
-        [pkg_apollo_gz_bringup, 'launch', 'imu_bridge.launch.py'])
+    bridge_launch = PathJoinSubstitution(
+        [pkg_apollo_gz_bringup, 'launch', 'bridge.launch.py'])
 
     # Launch Gazebo
     gazebo = IncludeLaunchDescription(
@@ -40,13 +40,13 @@ def generate_launch_description():
     )
 
     # Launch IMU bridge
-    imu_bridge = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([imu_bridge_launch])
+    bridge = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([bridge_launch])
     )
 
     # Create launch description and add actions
     ld = LaunchDescription(ARGUMENTS)
     ld.add_action(gazebo)
     ld.add_action(robot_spawn)
-    ld.add_action(imu_bridge)
+    ld.add_action(bridge)
     return ld
