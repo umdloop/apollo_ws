@@ -1,6 +1,6 @@
-controller_manager:
+/**/controller_manager:
   ros__parameters:
-    update_rate: 10  # Hz
+    update_rate: 100  # Hz
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
@@ -8,8 +8,9 @@ controller_manager:
     diffbot_base_controller:
       type: diff_drive_controller/DiffDriveController
 
-diffbot_base_controller:
+/**/diffbot_base_controller:
   ros__parameters:
+    type: diff_drive_controller/DiffDriveController
     left_wheel_names: ["Left_FrontMotor","Left_MiddleMotor","Left_BackMotor"]
     right_wheel_names: ["Right_FrontMotor","Right_MiddleMotor","Right_BackMotor"]
     use_stamped_vel: false

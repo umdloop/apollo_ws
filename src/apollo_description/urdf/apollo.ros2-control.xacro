@@ -5,7 +5,7 @@
 
     <ros2_control name="${name}" type="system">
       <hardware>
-        <plugin>ign_ros2_control/IgnitionSystem</plugin>
+        <plugin>gz_ros2_control/GazeboSimSystem</plugin>
         <param name="calculate_dynamics">true</param>
       </hardware>
       <joint name="Left_FrontMotor">
@@ -42,7 +42,7 @@
 
   </xacro:macro>
   <gazebo>
-    <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+    <plugin filename="libgz_ros2_control-system.so" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
       <parameters>$(find apollo_control)/config/control.yaml</parameters>
     </plugin>
   </gazebo>

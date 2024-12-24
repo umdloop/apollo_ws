@@ -1,6 +1,10 @@
 <?xml version="1.0" ?>
 <robot name="apollo" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:include filename="apollo.drive.urdf.xacro" />
+  <xacro:include filename="apollo.ros2-control.xacro" />
+  <xacro:apollo_ros2_control name="apollo_drive_control" prefix="apollo" use_mock_hardware='true'>
+  </xacro:apollo_ros2_control>
+
   <xacro:include filename="apollo.imu.xacro"/>
   <xacro:include filename="apollo.gps.xacro"/>
   <xacro:imu_sensor prefix="apollo" parent="chassis">

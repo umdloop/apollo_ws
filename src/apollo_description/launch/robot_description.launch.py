@@ -57,9 +57,7 @@ def generate_launch_description():
         ]
     )
 
-    # Define LaunchDescription variable
     ld = LaunchDescription(ARGUMENTS)
-    # Add nodes to LaunchDescription
     ld.add_action(robot_state_publisher)
     ld.add_action(joint_state_publisher)
     return ld
