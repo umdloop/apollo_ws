@@ -34,7 +34,7 @@ def generate_launch_description():
         launch_arguments=[
             ('gz_args', [f"{pkg_apollo_gz_bringup}/worlds/apollo_world.sdf",
                         ' -r',
-                        ' -v 2']
+                        ' -v 4']
             )
         ]
     )
