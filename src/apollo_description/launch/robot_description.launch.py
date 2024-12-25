@@ -26,7 +26,6 @@ def generate_launch_description():
                                        'urdf',
                                        'apollo.urdf.xacro'])
     namespace = LaunchConfiguration('namespace')
-
     robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -57,7 +56,24 @@ def generate_launch_description():
         ]
     )
 
+        # Joint state publisher node
+    joint_state_publisher_gui = Node(
+        package='joint_state_publisher_gui',
+        executable='joint_state_publisher_gui',
+        name='joint_state_publisher_gui'
+    )
+
+    # RViz2 node
+    rviz = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        output='screen',
+        arguments=['-d', f"{pkg_apollo_description}/config/config.rviz"]
+    )
     ld = LaunchDescription(ARGUMENTS)
     ld.add_action(robot_state_publisher)
     ld.add_action(joint_state_publisher)
+    ld.add_action(joint_state_publisher_gui)
+    ld.add_action(rviz)
     return ld
