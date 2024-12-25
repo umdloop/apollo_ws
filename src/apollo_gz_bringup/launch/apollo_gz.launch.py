@@ -14,11 +14,10 @@ ARGUMENTS = [
 ]
 
 def generate_launch_description():
-    # Directories
     pkg_apollo_gz_bringup = get_package_share_directory('apollo_gz_bringup')
     pkg_apollo_control = get_package_share_directory('apollo_control')
+    pkg_apollo_localization = get_package_share_directory('apollo_localization')
 
-    # Paths
     gazebo_launch = PathJoinSubstitution(
         [pkg_apollo_gz_bringup, 'launch', 'gz.launch.py'])
     robot_spawn_launch = PathJoinSubstitution(
@@ -26,15 +25,14 @@ def generate_launch_description():
     bridge_launch = PathJoinSubstitution(
         [pkg_apollo_gz_bringup, 'launch', 'bridge.launch.py'])
     control_launch = PathJoinSubstitution(
-        [pkg_apollo_control, 'launch', 'controller_launch.py']
-    )
+        [pkg_apollo_control, 'launch', 'controller_launch.py'])
+    localization_launch = PathJoinSubstitution(
+        [pkg_apollo_localization, 'launch', 'localization_launch.py'])
 
-    # Launch Gazebo
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([gazebo_launch])
     )
 
-    # Launch robot spawner
     robot_spawn = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([robot_spawn_launch]),
         launch_arguments=[
@@ -42,12 +40,16 @@ def generate_launch_description():
             ('rviz', LaunchConfiguration('rviz'))]
     )
 
-    # Launch IMU bridge
     bridge = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([bridge_launch])
     )
+
     control = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([control_launch])
+    )
+
+    localization = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([localization_launch])
     )
 
     # Create launch description and add actions
@@ -56,4 +58,5 @@ def generate_launch_description():
     ld.add_action(robot_spawn)
     ld.add_action(bridge)
     ld.add_action(control)
+    ld.add_action(localization)
     return ld
