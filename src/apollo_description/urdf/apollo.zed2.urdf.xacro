@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="zed2_camera" params="name parent_link topic_prefix:='zed2' *origin">
+    <!-- Camera Link -->
+    <link name="${name}_camera_link">
+      <inertial>
+        <mass value="0.159"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="0.000039" ixy="0" ixz="0" 
+                 iyy="0.000039" iyz="0" 
+                 izz="0.000039"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://apollo_description/meshes/sensors/ZED2.dae"/>
+        </geometry>
+        <material name="dark_grey">
+          <color rgba="0.1 0.1 0.1 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.175 0.030 0.033"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Joint to parent -->
+    <joint name="${name}_camera_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent_link}"/>
+      <child link="${name}_camera_link"/>
+    </joint>
+
+    <!-- Left Camera -->
+    <link name="${name}_left_camera_frame"/>
+    <joint name="${name}_left_camera_joint" type="fixed">
+      <origin xyz="0 0.06 0" rpy="0 0 0"/>
+      <parent link="${name}_camera_link"/>
+      <child link="${name}_left_camera_frame"/>
+    </joint>
+    <link name="${name}_left_camera_optical_frame"/>
+    <joint name="${name}_left_camera_optical_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="-${pi/2} 0 -${pi/2}"/>
+      <parent link="${name}_left_camera_frame"/>
+      <child link="${name}_left_camera_optical_frame"/>
+    </joint>
+
+    <!-- Right Camera -->
+    <link name="${name}_right_camera_frame"/>
+    <joint name="${name}_right_camera_joint" type="fixed">
+      <origin xyz="0 -0.06 0" rpy="0 0 0"/>
+      <parent link="${name}_camera_link"/>
+      <child link="${name}_right_camera_frame"/>
+    </joint>
+    <link name="${name}_right_camera_optical_frame"/>
+    <joint name="${name}_right_camera_optical_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="-${pi/2} 0 -${pi/2}"/>
+      <parent link="${name}_right_camera_frame"/>
+      <child link="${name}_right_camera_optical_frame"/>
+    </joint>
+
+    <gazebo reference="${name}_camera_link">
+      <sensor name="${name}_left_camera" type="camera">
+        <update_rate>30.0</update_rate>
+        <camera>
+          <horizontal_fov>1.91986</horizontal_fov>
+          <image>
+            <width>1280</width>
+            <height>720</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.02</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+
+      <sensor name="${name}_right_camera" type="camera">
+        <update_rate>30.0</update_rate>
+        <camera>
+          <horizontal_fov>1.91986</horizontal_fov>
+          <image>
+            <width>1280</width>
+            <height>720</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.02</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+
+      <sensor name="${name}_depth_camera" type="depth_camera">
+        <update_rate>30.0</update_rate>
+        <camera>
+          <horizontal_fov>1.91986</horizontal_fov>
+          <image>
+            <width>1280</width>
+            <height>720</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>20.0</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+
+      </sensor>
+
+      <material>Gazebo/DarkGrey</material>
+    </gazebo>
+  </xacro:macro>
+</robot>

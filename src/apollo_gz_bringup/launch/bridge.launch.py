@@ -38,6 +38,30 @@ def generate_launch_description():
                 ('/gps/fix', 'apollo/gps/fix'),
             ]
         ),
+        Node(
+            package='ros_gz_bridge',
+            executable='parameter_bridge',
+            name='depth_image_bridge',
+            output='screen',
+            arguments=[
+                '/world/apollo_world/model/apollo/link/chassis/sensor/zed2_depth_camera/depth_image@sensor_msgs/msg/Image@gz.msgs.Image',
+            ],
+            remappings=[
+                ('/world/apollo_world/model/apollo/link/chassis/sensor/zed2_depth_camera/depth_image', 'apollo/zed2_depth_camera/depth_image'),
+            ]
+        ),
+        Node(
+            package='ros_gz_bridge',
+            executable='parameter_bridge',
+            name='depth_points_bridge',
+            output='screen',
+            arguments=[
+                '/world/apollo_world/model/apollo/link/chassis/sensor/zed2_depth_camera/depth_image/points@sensor_msgs/msg/PointCloud2@gz.msgs.PointCloudPacked',
+            ],
+            remappings=[
+                ('/world/apollo_world/model/apollo/link/chassis/sensor/zed2_depth_camera/depth_image/points', 'apollo/zed2_depth_camera/depth_image/points'),
+            ]
+        ),
         Node(package='ros_gz_bridge', executable='parameter_bridge',
                        name='clock_bridge',
                        output='screen',
