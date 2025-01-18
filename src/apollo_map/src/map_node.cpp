@@ -1,58 +1,55 @@
 #include <rclcpp/rclcpp.hpp>
-#include <grid_map_ros/grid_map_ros.hpp>
-#include <grid_map_msgs/msg/grid_map.hpp>
-#include <cmath>
+#include <nav_msgs/msg/occupancy_grid.hpp>
 #include <memory>
-#include <utility>
 
 int main(int argc, char ** argv)
 {
-  // Initialize node and publisher
   rclcpp::init(argc, argv);
-  rclcpp::Node::SharedPtr node = std::make_shared<rclcpp::Node>("static_grid_map_demo");
-  auto publisher = node->create_publisher<grid_map_msgs::msg::GridMap>(
-    "grid_map", rclcpp::QoS(1).transient_local());
+  rclcpp::Node::SharedPtr node = std::make_shared<rclcpp::Node>("static_occupancy_map_demo");
+  auto publisher = node->create_publisher<nav_msgs::msg::OccupancyGrid>(
+    "occupancy_map", rclcpp::QoS(1).transient_local());
 
-  // Create grid map
-  grid_map::GridMap map({"elevation"});
-  map.setFrameId("map");
-  map.setGeometry(grid_map::Length(1.2, 2.0), 0.03);  // 1.2m x 2.0m with 0.03m resolution
+  auto message = std::make_unique<nav_msgs::msg::OccupancyGrid>();
+  message->header.frame_id = "map";
+  
+  double resolution = 0.03;  // 3cm resolution
+  double width = 2.0;       // 2.0m width
+  double height = 1.2;      // 1.2m height
+  
+  message->info.resolution = resolution;
+  message->info.width = static_cast<uint32_t>(width / resolution);
+  message->info.height = static_cast<uint32_t>(height / resolution);
+  
+  message->info.origin.position.x = -width/2;
+  message->info.origin.position.y = -height/2;
+  message->info.origin.position.z = 0.0;
+  message->info.origin.orientation.w = 1.0;
+
+  message->data.resize(message->info.width * message->info.height);
+
+  const int border_width = 5;
+
+  for (uint32_t i = 0; i < message->info.height; ++i) {
+    for (uint32_t j = 0; j < message->info.width; ++j) {
+      // Check if cell is in the border region
+      bool is_border = (i < border_width) ||                          // Top border
+                      (i >= message->info.height - border_width) ||   // Bottom border
+                      (j < border_width) ||                          // Left border
+                      (j >= message->info.width - border_width);     // Right border
+      
+      message->data[i * message->info.width + j] = is_border ? 100 : 0;
+    }
+  }
 
   RCLCPP_INFO(
     node->get_logger(),
-    "Created map with size %f x %f m (%i x %i cells).",
-    map.getLength().x(), map.getLength().y(),
-    map.getSize()(0), map.getSize()(1));
+    "Created occupancy map with size %f x %f m (%u x %u cells), border width: %d cells",
+    width, height, message->info.width, message->info.height, border_width);
 
-  // Fill the map with a consistent pattern - a hill in the center
-  for (grid_map::GridMapIterator it(map); !it.isPastEnd(); ++it) {
-    grid_map::Position position;
-    map.getPosition(*it, position);
-    
-    // Calculate distance from center
-    double center_x = map.getLength().x() / 2.0;
-    double center_y = map.getLength().y() / 2.0;
-    double dx = position.x() - center_x;
-    double dy = position.y() - center_y;
-    double distance = std::sqrt(dx*dx + dy*dy);
-    
-    // Create a gaussian hill
-    double sigma = 0.3;  // Controls the width of the hill
-    double height = 0.2; // Maximum height of the hill
-    map.at("elevation", *it) = height * std::exp(-(distance * distance) / (2 * sigma * sigma));
-  }
-
-  // Publish loop
-  rclcpp::Rate rate(1.0);  // Reduced rate since map doesn't change
-  rclcpp::Clock clock;
+  rclcpp::Rate rate(1.0);
   while (rclcpp::ok()) {
-    // Publish grid map
-    map.setTimestamp(node->now().nanoseconds());
-    std::unique_ptr<grid_map_msgs::msg::GridMap> message;
-    message = grid_map::GridMapRosConverter::toMessage(map);
-    publisher->publish(std::move(message));
-    
-    
+    message->header.stamp = node->now();
+    publisher->publish(*message);
     rate.sleep();
   }
 

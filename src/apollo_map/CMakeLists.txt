@@ -7,32 +7,20 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(filters REQUIRED)
-find_package(grid_map_cmake_helpers REQUIRED)
-find_package(grid_map_core REQUIRED)
-find_package(grid_map_msgs REQUIRED)
-find_package(grid_map_octomap REQUIRED)
-find_package(grid_map_ros REQUIRED)
-find_package(OCTOMAP REQUIRED)
-find_package(octomap_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
 
 set(dependencies
-  grid_map_msgs
-  grid_map_ros
   rclcpp
+  nav_msgs
 )
 
-include_directories(
-  include
-  SYSTEM
-    ${EIGEN3_INCLUDE_DIR}
-)
+
 add_executable(map_node src/map_node.cpp)
 target_include_directories(map_node PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
