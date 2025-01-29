@@ -14,6 +14,13 @@ rosdep install --from-paths src --ignore-src -r
 
 You must build/install the MAVSDK from source or install a prebuilt version. See instructions [here](https://mavsdk.mavlink.io/v2.0/en/cpp/guide/installation.html).
 
+## Necessary python packages
+
+```bash
+transforms3d
+ahrs
+```
+
 ## Building
 
 ```bash
