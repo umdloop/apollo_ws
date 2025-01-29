@@ -22,7 +22,7 @@ public:
         mavsdk_ = std::make_unique<Mavsdk>(Mavsdk::Configuration{10, 1, false});
         // this must be configured in the launch file
         this->declare_parameter("usb_path", "/dev/ttyACM0");
-        ConnectionResult conn_result = mavsdk_->add_serial_connection(this->get_parameter("usb_path").as_string());
+        ConnectionResult conn_result = mavsdk_->add_any_connection(this->get_parameter("usb_path").as_string());
         if (conn_result != ConnectionResult::Success) {
             RCLCPP_ERROR(this->get_logger(), "Failed to connect to Pixhawk! Please check physical connection.");
             return;
